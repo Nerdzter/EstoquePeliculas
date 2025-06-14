@@ -1,4 +1,4 @@
-# Miscellaneous
+# Misc
 *.class
 *.log
 *.pyc
@@ -12,34 +12,80 @@
 .swiftpm/
 migrate_working_dir/
 
-# IntelliJ related
+# IntelliJ / Android Studio
 *.iml
 *.ipr
 *.iws
 .idea/
 
-# The .vscode folder contains launch configuration and tasks you configure in
-# VS Code which you may wish to be included in version control, so this line
-# is commented out by default.
-#.vscode/
+# VS Code
+.vscode/
 
-# Flutter/Dart/Pub related
-**/doc/api/
-**/ios/Flutter/.last_build_id
+# Flutter / Dart / Pub
 .dart_tool/
+.packages
 .flutter-plugins
 .flutter-plugins-dependencies
+.metadata
 .pub-cache/
 .pub/
-/build/
+build/
+**/build/
+**/ios/Flutter/.last_build_id
+**/doc/api/
 
-# Symbolication related
+# Android
+android/.gradle
+android/.idea
+android/local.properties
+android/app/debug
+android/app/profile
+android/app/release
+*.jks
+
+# iOS
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/Flutter/Generated.xcconfig
+ios/Flutter/app.flx
+ios/Flutter/app.zip
+ios/Flutter/flutter_assets
+ios/.generated
+ios/.symlinks
+ios/Pods
+ios/Runner.xcworkspace
+
+# macOS
+macos/Flutter/GeneratedPluginRegistrant.swift
+macos/Flutter/ephemeral/
+macos/.symlinks
+macos/Pods
+macos/Runner.xcworkspace
+
+# Linux
+linux/flutter/ephemeral/
+linux/CMakeFiles/
+linux/cmake-build-debug/
+
+# Windows
+windows/flutter/ephemeral/
+windows/CMakeFiles/
+windows/cmake-build-debug/
+
+# Web
+web/wasm/
+
+# Symbolication / Obfuscation
 app.*.symbols
-
-# Obfuscation related
 app.*.map.json
 
-# Android Studio will place build artifacts here
-/android/app/debug
-/android/app/profile
-/android/app/release
+# Others
+*.lock
+*.bak
+*.tmp
+
+# Hive, test projects
+test_hive_project/
+
+# Coverage
+coverage/

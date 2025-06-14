@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import '../../../data/models/filme_model.dart';
 import '../../controllers/estoque_controller.dart';
 
@@ -15,18 +17,28 @@ class EstoquePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Image.asset(
-          'assets/naytec_logo.png',
-          height: 56, // AUMENTE AQUI
-        ),
+        backgroundColor: const Color(0xFF0C0C0C),
+        title: Image.asset('assets/logo.png', height: 40),
       ),
-
-
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _mostrarDialogoCadastro(context),
-        backgroundColor: Colors.tealAccent,
-        child: const Icon(Icons.add),
+      floatingActionButton: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          FloatingActionButton(
+            heroTag: 'sendBtn',
+            backgroundColor: Colors.orange,
+            child: const Icon(Icons.send),
+            onPressed: () => _abrirDialogoWhatsApp(context),
+          ),
+          const SizedBox(height: 12),
+          FloatingActionButton(
+            heroTag: 'addBtn',
+            onPressed: () => _mostrarDialogoCadastro(context),
+            backgroundColor: Colors.tealAccent,
+            child: const Icon(Icons.add),
+          ),
+        ],
       ),
+      backgroundColor: const Color(0xFF0C0C0C),
       body: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -41,6 +53,84 @@ class EstoquePage extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  void _abrirDialogoWhatsApp(BuildContext context) {
+    bool enviarAlertas = true;
+    bool enviarEstoque = true;
+    final TextEditingController comentarioCtrl = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (_) => StatefulBuilder(
+        builder: (context, setState) => AlertDialog(
+          backgroundColor: const Color(0xFF1E1E1E),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          title: const Text('Enviar para Cleber', style: TextStyle(color: Colors.white)),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CheckboxListTile(
+                value: enviarAlertas,
+                onChanged: (val) => setState(() => enviarAlertas = val!),
+                title: const Text('Enviar Alertas', style: TextStyle(color: Colors.white)),
+              ),
+              CheckboxListTile(
+                value: enviarEstoque,
+                onChanged: (val) => setState(() => enviarEstoque = val!),
+                title: const Text('Enviar Estoque Atual', style: TextStyle(color: Colors.white)),
+              ),
+              TextField(
+                controller: comentarioCtrl,
+                style: const TextStyle(color: Colors.white),
+                decoration: const InputDecoration(
+                  labelText: 'Comentário',
+                  labelStyle: TextStyle(color: Colors.white70),
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              child: const Text('Cancelar', style: TextStyle(color: Colors.tealAccent)),
+              onPressed: () => Navigator.pop(context),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                final agora = DateFormat('dd/MM/yyyy HH:mm').format(DateTime.now());
+                String mensagem = '--- $agora ---\n\n';
+                mensagem += comentarioCtrl.text.trim().isEmpty ? '' : '${comentarioCtrl.text}\n\n';
+
+                if (enviarAlertas) {
+                  final alertas = _controller.estoque.where((e) => e.quantidade <= 2);
+                  mensagem += '*ALERTAS:*\n';
+                  if (alertas.isEmpty) {
+                    mensagem += '- Nenhum alerta ativo\n';
+                  } else {
+                    for (var a in alertas) {
+                      mensagem += '- ${a.marca} ${a.modelo} - ${a.tipo}: ${a.quantidade}\n';
+                    }
+                  }
+                  mensagem += '\n';
+                }
+
+                if (enviarEstoque) {
+                  mensagem += '*ESTOQUE ATUAL:*\n';
+                  for (var f in _controller.estoque) {
+                    mensagem += '- ${f.marca} ${f.modelo} - ${f.tipo}: ${f.quantidade}\n';
+                  }
+                }
+
+                final link = 'https://wa.me/5532984601082?text=${Uri.encodeComponent(mensagem)}';
+                launchUrlString(link);
+                Navigator.pop(context);
+              },
+              child: const Text('Enviar'),
+            ),
+          ],
+        ),
       ),
     );
   }

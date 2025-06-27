@@ -1,4 +1,4 @@
-# 📲 Estoque de Películas - NayTec
+# 📲 Estoque de Películas - NayTec 
 
 Gerenciador moderno e visual de estoque de películas NayTec, com alertas automáticos de baixa quantidade, envio por WhatsApp, design escuro, e filtros avançados por Marca e Tipo.
 

@@ -3,7 +3,7 @@
 Gerenciador moderno e visual de estoque de películas NayTec, com alertas automáticos de baixa quantidade, envio por WhatsApp, design escuro, e filtros avançados por Marca e Tipo.
 
 
-Isso otimizou todo gerenciamento da loja. Uma função que demandava 1 colaborador, e cerca de 2 dias de serviço, agora demora 1 clique no mouse.
+Isso otimizou todo gerenciamento da loja.  Uma função que demandava 1 colaborador, e cerca de 2 dias de serviço, agora demora 1 clique no mouse.
 
 
 ---
